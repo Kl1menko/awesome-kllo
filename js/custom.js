@@ -817,6 +817,7 @@ let designSwiper = null;
       }
     });*/
     // Step 1: Create Swiper instance first (without event handlers)
+    if (document.querySelector('.service_image-wrapper.no-code-image')) {
     const serviceSwiper = new Swiper('.service_image-wrapper.no-code-image', {
       slidesPerView: 1,
       loop: true,
@@ -876,7 +877,9 @@ let designSwiper = null;
         img.classList.add(animationType);
       }
     }, 50);
+    }
 
+    if (document.querySelector('.achievements-component')) {
     const swiper = new Swiper('.achievements-component', {
       slidesPerView: 1.082,
       spaceBetween: 12,
@@ -903,6 +906,9 @@ let designSwiper = null;
       }
     });
 
+    }
+
+    if (document.querySelector('.talents-swiper')) {
     const talentsSwiper = new Swiper('.talents-swiper', {
       slidesPerView: 1.1,
       spaceBetween: 12,
@@ -926,6 +932,8 @@ let designSwiper = null;
         }
       }
     });
+
+    }
 
     const casesSwiper = new Swiper('.cases_swiper', {
       slidesPerView: 1.082,
