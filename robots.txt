@@ -1,10 +1,4 @@
 User-agent: *
-Disallow: /alternatives
-Disallow: /*?
-Disallow: /hire$
-Disallow: /hire?*
 Disallow: /cdn-cgi/
 
-Sitemap: https://www.awesomic.com/hire-sitemap/sitemap.xml
-
-Sitemap: https://www.awesomic.com/sitemap.xml
+Sitemap: https://www.kllo.com.ua/sitemap.xml
