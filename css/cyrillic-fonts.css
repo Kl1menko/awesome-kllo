@@ -1,0 +1,159 @@
+/* Ukrainian/Cyrillic glyph support for the Cosmica family.
+   Cosmica has no Cyrillic glyphs, so we map the Cyrillic unicode-range to
+   Manrope (a variable geometric sans, weights 200–800) that visually matches
+   Cosmica. Latin characters keep using Cosmica; only Cyrillic falls through to
+   Manrope, per weight. */
+
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-cyrillic.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-cyrillic-ext.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+/* Digits and number-related punctuation: route them to Manrope too, so numbers
+   match the Cyrillic text instead of using Cosmica (which looks different).
+   Only digits + $ % + , . - are remapped — Latin letters stay in Cosmica. */
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-latin.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0030-0039, U+0024, U+0025, U+002B, U+002C, U+002E, U+002D;
+}
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-latin.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0030-0039, U+0024, U+0025, U+002B, U+002C, U+002E, U+002D;
+}
+
+/* Italic Cyrillic: Manrope has no true italic, so we synthesize an oblique. */
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-cyrillic.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: Cosmica;
+  src: url(../fonts/Manrope-cyrillic-ext.woff2) format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+/* Web & product hero card: make a <video> slide fill the swiper slide the
+   same way the <img> slides do (object-fit: cover, full size). */
+.hero-card_swiper .swiper-slide,
+.hero-card_swiper video.swiper-slide {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Success-stories cases: <video> covers behave like the original <img> slides. */
+.cases_swiper .case_slide { aspect-ratio: 4 / 3; }
+video.case-slide_image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Dark gradient scrim at the bottom of video case cards so the white title
+   and tags stay readable over light video frames. */
+.cases_swiper .case_slide::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 55%;
+  background: linear-gradient(to top, rgba(0,0,0,0.72), rgba(0,0,0,0));
+  pointer-events: none;
+  z-index: 1;
+}
+.cases_swiper .slide-info-container { z-index: 2; }
+
+/* Reboot case has a light video, so it keeps dark text and no dark scrim. */
+.cases_swiper .case_slide.is-light-bg::after { display: none; }
+
+/* Thinner weight for the top promo banner text. */
+.ai-banner .z-index-11 { font-weight: 300; }
+
+/* --- Global Latin/Cyrillic weight balance ---
+   Cosmica (Latin) renders visually lighter than Manrope (Cyrillic) at the same
+   font-weight. Cosmica is NOT a variable font, so it ignores the "wght" axis in
+   font-variation-settings — but Manrope IS variable and obeys it. So we lighten
+   ONLY the Cyrillic glyphs by setting a slightly lower "wght" per weight bucket,
+   without touching font-weight (which still drives Cosmica). This evens out the
+   apparent stroke thickness across the whole site. */
+.weight-book    { font-variation-settings: "wght" 230; } /* maps ~300 */
+.weight-regular { font-variation-settings: "wght" 300; } /* maps ~400 */
+.weight-medium  { font-variation-settings: "wght" 360; } /* maps ~500 */
+.weight-semibold{ font-variation-settings: "wght" 430; } /* maps ~600 */
+.weight-bold    { font-variation-settings: "wght" 510; } /* maps ~700 */
+h1, h2 { font-variation-settings: "wght" 430; } /* default 600 headings */
+h3, h4, h5, h6 { font-variation-settings: "wght" 510; } /* default 700 headings */
+
+/* "Замовити аудит сайту" — white button with a visible border and the same
+   active-state glow effect that the black "Обговорити проєкт" button shows. */
+.hero-buttons-row .button.is-white{
+  border: 1.5px solid #9896d233;
+  box-shadow: inset 0 .5px #ffffff80, inset 0 9px 14px -5px #ffffff80, 0 0 0 1.5px #9896d21a;
+  transition: box-shadow .2s, border-color .2s, background-color .2s;
+}
+.hero-buttons-row .button.is-white:hover{
+  border-color: #9896d266;
+  box-shadow: inset 0 .5px #ffffff, inset 0 9px 14px -5px #ffffff, 0 0 0 2px #9896d233;
+}
+
+/* "Старт за 24 години" card — new background photo. */
+._w-hills, ._w-hills_upd {
+  background-image: url(../images/brif.jpg) !important;
+  background-position: 50% 50% !important;
+  background-size: cover !important;
+}
+
+/* "Без шаблонних пакетів" — raise the cursor image higher in the card. */
+.why-rock-image.is-cursor { bottom: 40px; }
+
+/* Review avatar: the portrait photo must cover the round frame, not stretch. */
+.review_author-photo {
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Hero CTA buttons: centered, stacked and a bit larger on mobile. */
+@media (max-width: 767px) {
+  .pseo-hero-button-wrapper .hero-buttons-row {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 12px;
+  }
+  .hero-buttons-row .button {
+    width: 100%;
+    max-width: 360px;
+    padding: 18px 24px;
+    font-size: 16px;
+  }
+}
