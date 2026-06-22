@@ -98,6 +98,21 @@ video.case-slide_image {
 /* Thinner weight for the top promo banner text. */
 .ai-banner .z-index-11 { font-weight: 300; }
 
+/* Top promo banner: drop the textured background image, keep the matte
+   gray-100 fill and just the text. */
+.ai-banner .ai-banner_bg-video { display: none !important; }
+
+/* Shrink the banner to a compact pill around the text (centered) instead of a
+   full-width grey bar, and drop the grey fill so only the text shows. */
+.ai-banner {
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent !important;
+}
+
 /* --- Global Latin/Cyrillic weight balance ---
    Cosmica (Latin) renders visually lighter than Manrope (Cyrillic) at the same
    font-weight. Cosmica is NOT a variable font, so it ignores the "wght" axis in
