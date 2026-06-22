@@ -561,15 +561,19 @@ var tabTimeout;
         if (!block) return;
 
         const video = block.querySelector('.video-review');
-console.log(video);
-        const source = video?.querySelector('source[data-src]');
-console.log(source);
+        // Support both lazy sources (<source data-src>) and ready ones (<source src>).
+        const source = video?.querySelector('source[data-src], source[src]');
 
         // no real video → do nothing
-        if (!video || !source || !source.dataset.src) return;
+        if (!video || !source) return;
 
         if (!video.dataset.loaded) {
-          video.src = source.dataset.src;
+          const realSrc = source.dataset.src || source.getAttribute('src');
+          if (!realSrc) return;
+          // Promote a lazy data-src to a real src if needed.
+          if (source.dataset.src && !source.getAttribute('src')) {
+            source.src = realSrc;
+          }
           video.load();
           video.dataset.loaded = 'true';
         }
