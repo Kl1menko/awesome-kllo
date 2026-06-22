@@ -95,8 +95,11 @@ video.case-slide_image {
 /* Reboot case has a light video, so it keeps dark text and no dark scrim. */
 .cases_swiper .case_slide.is-light-bg::after { display: none; }
 
-/* Thinner weight for the top promo banner text. */
-.ai-banner .z-index-11 { font-weight: 300; }
+/* Thinner weight for the top promo banner text + no background pill. */
+.ai-banner .z-index-11 {
+  font-weight: 300;
+  background-color: transparent !important;
+}
 
 /* Top promo banner: drop the textured background image, keep the matte
    gray-100 fill and just the text. */
