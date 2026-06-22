@@ -95,10 +95,39 @@ video.case-slide_image {
 /* Reboot case has a light video, so it keeps dark text and no dark scrim. */
 .cases_swiper .case_slide.is-light-bg::after { display: none; }
 
-/* Thinner weight for the top promo banner text + no background pill. */
+/* Animated 8-bit pixel-art fire icon that replaces the 🔥 emoji in the banner.
+   Four flame frames are stacked and cycled one-at-a-time for a flicker. */
+.px-fire {
+  display: inline-block;
+  vertical-align: -5px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+.px-fire .fl { opacity: 0; }
+.px-fire .fl0 { animation: px-fire-flicker 0.52s steps(1, end) infinite; }
+.px-fire .fl1 { animation: px-fire-flicker 0.52s steps(1, end) infinite -0.13s; }
+.px-fire .fl2 { animation: px-fire-flicker 0.52s steps(1, end) infinite -0.26s; }
+.px-fire .fl3 { animation: px-fire-flicker 0.52s steps(1, end) infinite -0.39s; }
+@keyframes px-fire-flicker {
+  0%   { opacity: 1; }
+  25%  { opacity: 0; }
+  100% { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .px-fire .fl { animation: none; }
+  .px-fire .fl0 { opacity: 1; }
+}
+
+/* Top promo banner text: thinner weight, sitting on a frosted-glass pill
+   (translucent white + blur). */
 .ai-banner .z-index-11 {
   font-weight: 300;
-  background-color: transparent !important;
+  background-color: rgba(255, 255, 255, 0.45) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(8px) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 12px !important;
+  padding: 8px 18px !important;
 }
 
 /* Top promo banner: drop the textured background image, keep the matte
