@@ -113,6 +113,15 @@ video.case-slide_image {
 h1, h2 { font-variation-settings: "wght" 430; } /* default 600 headings */
 h3, h4, h5, h6 { font-variation-settings: "wght" 510; } /* default 700 headings */
 
+/* On desktop the Cyrillic headings render visually heavier than on mobile
+   Safari, because the larger font-size makes the same stroke look thicker.
+   Lower the wght axis on wider screens so big headings stay as thin and
+   elegant as they do on the phone. Mobile (the look we like) is untouched. */
+@media (min-width: 768px) {
+  h1, h2 { font-variation-settings: "wght" 360; }
+  h3, h4, h5, h6 { font-variation-settings: "wght" 430; }
+}
+
 /* "Замовити аудит сайту" — white button with a visible border and the same
    active-state glow effect that the black "Обговорити проєкт" button shows. */
 .hero-buttons-row .button.is-white{
@@ -125,15 +134,122 @@ h3, h4, h5, h6 { font-variation-settings: "wght" 510; } /* default 700 headings 
   box-shadow: inset 0 .5px #ffffff, inset 0 9px 14px -5px #ffffff, 0 0 0 2px #9896d233;
 }
 
-/* "Старт за 24 години" card — new background photo. */
+/* "Старт за 24 години" card — plain background colour, matching the
+   "Без шаблонних пакетів" card (gray-100). */
 ._w-hills, ._w-hills_upd {
-  background-image: url(../images/brif.jpg) !important;
-  background-position: 50% 50% !important;
-  background-size: cover !important;
+  background-image: none !important;
+  background-color: var(--_colors---gray--gray-100) !important;
+}
+
+/* "Отримайте … без головного болю" CTA — swap the right-side background photo
+   for ss-bg, keeping the same right-anchored placement. */
+.features_cta {
+  background-image: url(../images/ss-bg.png) !important;
+}
+
+/* Mobile: keep the ss-bg photo small and pinned to the right so it stays fully
+   visible and doesn't overlap the heading. */
+@media (max-width: 767px) {
+  .features_cta {
+    background-size: auto 110px !important;
+    background-position: 96% 22% !important;
+    background-repeat: no-repeat !important;
+  }
+}
+
+/* "Вас відділяє один дзвінок…" CTA — remove the decorative background photo
+   (both the <img> and the mirrored ::before/::after halves of the wrapper). */
+#cta-block .cta-bg-image { display: none !important; }
+#cta-block .full-image-wrapper::before,
+#cta-block .full-image-wrapper::after { display: none !important; }
+
+/* …and drop the inline faces image baked into the heading text. */
+#cta-block .cta_faces { display: none !important; }
+
+/* With the background photo gone, the big bottom padding (reserved for it) and
+   the top spacer leave too much empty space. Tighten top/bottom of the section. */
+#cta-block.section_cta { padding-bottom: 96px !important; }
+#cta-block .spacer-144.tablet_spacer-80 { height: 64px; }
+
+/* Mobile hero stats (360+ / 200+): center the numbers block on screen. */
+@media (max-width: 767px) {
+  .pseo-hero_numbers {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-left: 0;
+  }
+  .pseo-hero_numbers .hero_numbers-item,
+  .pseo-hero_numbers .hero_numbers-item.align-left {
+    align-items: center;
+    text-align: center;
+  }
+  /* Keep the caption under each number on a single line. */
+  .pseo-hero_numbers .hero_numbers-item .text-13 {
+    white-space: nowrap;
+  }
+
+  /* "Залишилися питання?" block — center text and button on mobile. */
+  .faq_cta-block {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .faq_cta-block .button {
+    align-self: center;
+  }
+}
+
+/* SEO/UX card — paper-plane background: a bit smaller and higher by default.
+   Uses bottom (not transform) so the Webflow hover lift animation, which
+   drives translateY on .face-banner-image, still works on top of it. */
+._w-face-upd .face-banner-image {
+  width: 360px;
+  max-width: 82%;
+  bottom: 90px;
+  /* center horizontally without touching transform (Webflow hover drives
+     translateY on this element, so we use right:auto + left/margin instead). */
+  right: auto;
+  left: 50%;
+  margin-left: -180px; /* -width/2 */
+}
+
+/* Mobile: smaller plane, sitting lower in the card. */
+@media (max-width: 767px) {
+  ._w-face-upd .face-banner-image {
+    width: 240px;
+    max-width: 60%;
+    bottom: 40px;
+    margin-left: -120px; /* -width/2 */
+  }
+}
+
+
+/* Mobile review video: with `.video-placeholder { position: relative }` the
+   placeholder dictates the container height, leaving a dark gap below the
+   shorter video clip. Dropping relative lets the absolute video (inset:0)
+   cover the whole card. */
+@media (max-width: 767px) {
+  .video-review_content.wall-of-love .video-placeholder {
+    position: static;
+  }
 }
 
 /* "Без шаблонних пакетів" — raise the cursor image higher in the card. */
 .why-rock-image.is-cursor { bottom: 40px; }
+
+/* "Як ми обираємо спеціаліста" — keep the dark hero-button styling, just pin
+   it centered at the bottom of the SEO/UX card (overrides the old PNG rule). */
+.how-choose-pro-button {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 2;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
 
 /* Review avatar: the portrait photo must cover the round frame, not stretch. */
 .review_author-photo {

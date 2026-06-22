@@ -361,6 +361,22 @@ var tabTimeout;
     }, 5000);
   }
 
+  // Keep a handle on the running progress animation so we can cancel it before
+  // starting a new one — otherwise stale animations stack up across tabs and
+  // leave the progress bar stuck/jumping when a card is opened by click.
+  var progressAnimation = null;
+
+  function resetAllProgressBars() {
+    if (progressAnimation) {
+      progressAnimation.cancel();
+      progressAnimation = null;
+    }
+    document.querySelectorAll('.how-tab_progress-status').forEach(function (status) {
+      status.getAnimations().forEach(function (a) { a.cancel(); });
+      status.style.width = '0%';
+    });
+  }
+
   function startAnimation() {
     const currentTab = document.querySelector('.how-tab_link.w--current');
     if (!currentTab) return;
@@ -371,7 +387,10 @@ var tabTimeout;
     const progressStatus = progressBarWrapper.querySelector('.how-tab_progress-status');
     if (!progressStatus) return;
 
-    const animation = progressStatus.animate([
+    // Clear any previous animations/widths so only the active tab animates.
+    resetAllProgressBars();
+
+    progressAnimation = progressStatus.animate([
       { width: '0%' },
       { width: '100%' }
     ], {
@@ -381,12 +400,12 @@ var tabTimeout;
     });
 
     currentTab.addEventListener('mouseenter', () => {
-      animation.pause();
+      if (progressAnimation) progressAnimation.pause();
       isPaused = true; // Pause the tab loop as well
     });
 
     currentTab.addEventListener('mouseleave', () => {
-      animation.play();
+      if (progressAnimation) progressAnimation.play();
       isPaused = false; // Resume the tab loop
     });
   }
@@ -403,8 +422,12 @@ var tabTimeout;
 
     tabLink.addEventListener('click', function() {
       clearTimeout(tabTimeout);
-      startAnimation();
-      tabLoop();
+      // Let Webflow move the `w--current` class to the clicked tab first,
+      // otherwise the bar animates on the previously active tab.
+      requestAnimationFrame(function () {
+        startAnimation();
+        tabLoop();
+      });
     });
 
     tabLink.querySelector('.tab_button-imitation').addEventListener('click', function(){
