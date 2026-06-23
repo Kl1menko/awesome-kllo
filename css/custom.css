@@ -925,3 +925,303 @@
   .hero-card_swiper::after{
   	right: 0;
   }
+
+/* ===== SEO sub-pages helpers (Kllo multi-page structure) ===== */
+.section-hero { padding-top: 24px; }
+.pseo-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.pseo-card {
+  display: block;
+  padding: 28px;
+  border-radius: 24px;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+  border: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  text-decoration: none;
+  transition: transform .25s ease, background .25s ease;
+}
+a.pseo-card:hover {
+  transform: translateY(-4px);
+  background: var(--_colors---gray--gray-200, #ececef);
+}
+.faq-item {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  margin-bottom: 24px;
+}
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+@media (max-width: 767px) {
+  .pseo-cards-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Cases grid (reference design: media on top, title + tags below) ===== */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px 24px;
+}
+.cases-grid_card {
+  display: block;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 28px;
+  transition: background .25s ease, transform .25s ease;
+}
+.cases-grid_card:hover {
+  background: #fff;
+  transform: translateY(-4px);
+}
+/* Cases page shares the gray background of the "Усуваємо те…" block */
+.cases-page-bg { background: var(--_colors---gray--gray-100, #f4f4f5); }
+.cases-grid_media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+}
+.cases-grid_video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.cases-grid_title {
+  margin: 18px 8px 12px;
+}
+.cases-grid_card .case-tags_wrapper {
+  margin: 0 8px 8px;
+}
+@media (max-width: 991px) {
+  .cases-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 599px) {
+  .cases-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Case detail page (reference design) ===== */
+.case-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 24px;
+  overflow: hidden;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+}
+.case-hero_media { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case-hero_tags {
+  position: absolute;
+  left: 20px; bottom: 20px;
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.case-hero_tag {
+  border: 1px solid rgba(255,255,255,.7);
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px; line-height: 1.4;
+  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,.08);
+}
+
+/* About + form two-column */
+.case-about {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 48px;
+  align-items: start;
+}
+.case-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+  border-radius: 20px;
+  padding: 24px 28px;
+}
+
+/* Project-creation form card */
+.proj-form_card {
+  border: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  border-radius: 24px;
+  padding: 28px;
+  position: sticky; top: 24px;
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(0,0,0,.05);
+}
+.proj-form_pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.proj-form_pill {
+  display: inline-flex; align-items: center;
+  border: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+  color: var(--_colors---gray--gray-700, #3f3f46);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: 13px; line-height: 1.3;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.proj-form_pill:hover { border-color: var(--_colors---gray--gray-400, #a1a1aa); }
+/* Active pill = same look as the hero .button (Kllo black button) */
+.proj-form_pill.is-active {
+  border: .5px solid var(--_colors---white--white-20, rgba(255,255,255,.2));
+  background-color: var(--_colors---gray--gray-950, #09090b);
+  color: var(--_colors---white--white-100, #fff);
+  box-shadow: inset 0 .5px #ffffff80,
+              inset 0 9px 14px -5px #757b8566,
+              0 0 0 1.5px #2c2e34,
+              0 4px 6px #00000024;
+}
+.proj-form_input { width: 100%; height: 50px; }
+.proj-form_submit { width: 100%; justify-content: center; }
+
+/* Gallery */
+.case-gallery { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.case-gallery_item {
+  width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+}
+.case-gallery_media { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@media (max-width: 991px) {
+  .case-about { grid-template-columns: 1fr; }
+  .proj-form_card { position: static; }
+}
+@media (max-width: 599px) {
+  .case-meta { grid-template-columns: 1fr; gap: 16px; }
+}
+
+/* ===== Project form: validation + success states ===== */
+.proj-form_error {
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+.proj-form_input.has-error {
+  border-color: #dc2626;
+}
+.proj-form_success {
+  text-align: left;
+}
+
+/* ===== Services hub (reference design: sticky left + cards grid right) ===== */
+.services-hub_layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.services-hub_side { position: sticky; top: 24px; }
+.services-hub_title {
+  font-size: 40px;
+  line-height: 1.08;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.svc-side_nav {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+}
+.svc-side_link {
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--_colors---gray--gray-700, #3f3f46);
+  text-decoration: none;
+  border-bottom: 1px solid var(--_colors---gray--gray-100, #f4f4f5);
+  transition: background .2s ease, color .2s ease;
+}
+.svc-side_link:last-child { border-bottom: none; }
+.svc-side_link:hover {
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+  color: var(--_colors---gray--gray-900, #18181b);
+}
+.services-hub_cta { width: 100%; justify-content: center; }
+
+.services-hub_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+.svc-card {
+  display: block;
+  text-decoration: none;
+  border-radius: 22px;
+  transition: transform .25s ease;
+}
+.svc-card:hover { transform: translateY(-4px); }
+.svc-card_media {
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--_colors---gray--gray-100, #f4f4f5);
+}
+.svc-card_video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.svc-card_title { margin: 18px 2px 12px; }
+.svc-card_tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 2px; }
+.svc-card_tag {
+  border: 1px solid var(--_colors---gray--gray-200, #e7e7ea);
+  color: var(--_colors---gray--gray-700, #3f3f46);
+  border-radius: 999px;
+  padding: 6px 13px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+@media (max-width: 991px) {
+  .services-hub_layout { grid-template-columns: 1fr; gap: 32px; }
+  .services-hub_side { position: static; }
+  .services-hub_title { font-size: 32px; }
+}
+@media (max-width: 599px) {
+  .services-hub_grid { grid-template-columns: 1fr; }
+}
+
+/* ===== Blog thumbnails (placeholder gradients until real cover images) ===== */
+.blog-thumb { position: relative; }
+.blog-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 120% at 100% 0%, rgba(255,255,255,.35), transparent 60%);
+}
+.blog-thumb_0 { background: linear-gradient(135deg, #1f2937, #4b5563); }
+.blog-thumb_1 { background: linear-gradient(135deg, #312e81, #6366f1); }
+.blog-thumb_2 { background: linear-gradient(135deg, #0f766e, #2dd4bf); }
+.blog-thumb_3 { background: linear-gradient(135deg, #7c2d12, #f97316); }
+.blog-thumb_4 { background: linear-gradient(135deg, #4c1d95, #a78bfa); }
+.blog-thumb_5 { background: linear-gradient(135deg, #18181b, #3f3f46); }
+
+/* ===== "скоро" badge in nav dropdown (Галерея) ===== */
+.soon-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--_colors---gray--gray-950, #09090b);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .01em;
+  white-space: nowrap;
+}

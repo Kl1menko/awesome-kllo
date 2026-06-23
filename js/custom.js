@@ -232,9 +232,14 @@ const showTabsTrigger = document.querySelector('.how-choose-pro-button');
     });
   });
 
-  // click on "show tabs" button → always restart at first step
-  showTabsTrigger.addEventListener('click', function(){
+  // click on "show tabs" button → reveal widget and restart at first step
+  // (this widget exists only on the homepage; guard so case/other pages don't throw)
+  if (showTabsTrigger) showTabsTrigger.addEventListener('click', function(e){
+    e.preventDefault();          // don't navigate to "index.html#" (jumps to page top)
     clearTimeout(whyTimeout);
+
+    whyIsPaused = false;                         // allow the loop to run again
+    whyAnimationContainer.style.display = '';    // reveal the (display:none) widget
 
     const firstTab = document.querySelector('.why-step');
     if (firstTab) {
@@ -245,7 +250,7 @@ const showTabsTrigger = document.querySelector('.how-choose-pro-button');
     }
   });
 
-  closeTabsTrigger.addEventListener('click', function () {
+  if (closeTabsTrigger) closeTabsTrigger.addEventListener('click', function () {
     clearTimeout(whyTimeout);     // stop loop
     whyAnimationContainer.style.display = 'none';
     if (currentAnimation) {
@@ -274,7 +279,7 @@ const showTabsTrigger = document.querySelector('.how-choose-pro-button');
 const featuresCircle = document.getElementById('features-cta-circle');
   const featuresCta = document.querySelector('.features_cta');
 
-  featuresCta.addEventListener('mousemove', function(event) {
+  if (featuresCta) featuresCta.addEventListener('mousemove', function(event) {
     const rect = featuresCta.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -284,11 +289,11 @@ const featuresCircle = document.getElementById('features-cta-circle');
     featuresCircle.style.opacity = 1;
   });
 
-  featuresCta.addEventListener('mouseleave', function() {
+  if (featuresCta) featuresCta.addEventListener('mouseleave', function() {
     featuresCircle.style.opacity = 0;
   });
 
-  featuresCircle.style.opacity = 0;
+  if (featuresCircle) featuresCircle.style.opacity = 0;
 
 /* ==== inline script block 8 ==== */
 var tabTimeout;
@@ -465,7 +470,7 @@ var tabTimeout;
     };
 
     const bgObserver = new IntersectionObserver(lazyBackground);
-    bgObserver.observe(bgTarget);
+    if (bgTarget) bgObserver.observe(bgTarget);
   });
 
 /* ==== inline script block 9 ==== */
@@ -476,7 +481,7 @@ var tabTimeout;
     const circle = document.getElementById('cta-circle');
     const ctaBlock = document.getElementById('cta-block');
 
-    ctaBlock.addEventListener('mousemove', function(event) {
+    if (ctaBlock) ctaBlock.addEventListener('mousemove', function(event) {
       const rect = ctaBlock.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -486,11 +491,11 @@ var tabTimeout;
       circle.style.opacity = 1;
     });
 
-    ctaBlock.addEventListener('mouseleave', function() {
+    if (ctaBlock) ctaBlock.addEventListener('mouseleave', function() {
       circle.style.opacity = 0;
     });
 
-    circle.style.opacity = 0;
+    if (circle) circle.style.opacity = 0;
   }
 
   const ctaSection = document.querySelector('.section_cta');
@@ -1008,8 +1013,9 @@ let designSwiper = null;
   document.addEventListener("DOMContentLoaded", () => {
 
     const whyStepsTrigger = document.querySelector('.how-choose-pro-button');
-    whyStepsTrigger.addEventListener('click', function(){
-      document.querySelector('.why-steps-animated-wrapper').style.display = 'flex';
+    if (whyStepsTrigger) whyStepsTrigger.addEventListener('click', function(){
+      const w = document.querySelector('.why-steps-animated-wrapper');
+      if (w) w.style.display = 'flex';
     });
 
     const counters = document.querySelectorAll('[counter="true"]');
@@ -1141,3 +1147,66 @@ let designSwiper = null;
     try { form.reset(); } catch (err) {}
   }, true);
 })();
+
+/* ==== project-creation form: pill selection + submit (mailto + success) ==== */
+document.querySelectorAll('.proj-form_card').forEach(function (card) {
+  const form    = card.querySelector('.proj-form_form');
+  const pills   = card.querySelectorAll('.proj-form_pill');
+  const hidden  = card.querySelector('.proj-form_hidden');
+  const emailEl = card.querySelector('input[name="email"]');
+  const errEl   = card.querySelector('.proj-form_error');
+  const success = card.querySelector('.proj-form_success');
+  const context = card.getAttribute('data-context') || '';
+
+  // category pills → active state + hidden value
+  pills.forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      pills.forEach(p => p.classList.remove('is-active'));
+      pill.classList.add('is-active');
+      if (hidden) hidden.value = pill.getAttribute('data-value') || pill.textContent.trim();
+    });
+  });
+
+  if (!form) return;
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showError(show) {
+    if (errEl) errEl.hidden = !show;
+    if (emailEl) emailEl.classList.toggle('has-error', show);
+  }
+  if (emailEl) emailEl.addEventListener('input', () => showError(false));
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = (emailEl && emailEl.value || '').trim();
+    if (!EMAIL_RE.test(email)) {
+      showError(true);
+      if (emailEl) emailEl.focus();
+      return;
+    }
+    showError(false);
+
+    const category = hidden ? hidden.value : '';
+    const subject = 'Нова заявка з сайту' + (context ? ' — ' + context : '');
+    const bodyLines = [
+      'Email: ' + email,
+      'Категорія: ' + category,
+    ];
+    if (context) bodyLines.push('Звідки: ' + context);
+    bodyLines.push('Сторінка: ' + window.location.href);
+
+    const mailto = 'mailto:inbox@kllo.com.ua'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+
+    // open the user's mail client with a pre-filled, structured message
+    window.location.href = mailto;
+
+    // swap form → success state
+    if (success) {
+      form.hidden = true;
+      success.hidden = false;
+    }
+  });
+});
